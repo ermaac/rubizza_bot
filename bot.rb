@@ -1,6 +1,6 @@
 require 'telegram/bot'
 require_relative 'loader.rb'
-require_relative 'token.rb'
+require 'dotenv/load'
 
 LIB_PATH = "lib"
 load_all LIB_PATH
@@ -39,7 +39,7 @@ def get_command bot, message
 	end
 end
 
-Telegram::Bot::Client.run(TOKEN) do |bot|
+Telegram::Bot::Client.run(ENV["TOKEN"]) do |bot|
   bot.listen do |message|
   	Thread.start do
 	    command = get_command bot, message

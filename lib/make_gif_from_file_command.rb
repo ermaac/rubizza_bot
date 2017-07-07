@@ -1,10 +1,10 @@
 require_relative "command.rb"
 require_relative "working_with_net.rb"
-require_relative "../token.rb"
 require 'json'
 require_relative "make_gif_command.rb"
 require "curb"
 require "tempfile"
+require 'dotenv/load'
 
 class MakeGifFromFileCommand < MakeGifCommand
 
@@ -12,7 +12,7 @@ class MakeGifFromFileCommand < MakeGifCommand
 
   def get_file
     file_path = get_file_path
-    make_request "https://api.telegram.org/file/bot#{TOKEN}/#{file_path}"
+    make_request "https://api.telegram.org/file/bot#{ENV['TOKEN']}/#{file_path}"
   end
 
   def get_response_with_gif
@@ -27,7 +27,7 @@ class MakeGifFromFileCommand < MakeGifCommand
   end
 
   def get_file_path
-    response = make_request "https://api.telegram.org/bot#{TOKEN}/getFile?file_id=#{@message.video.file_id}"
+    response = make_request "https://api.telegram.org/bot#{ENV['TOKEN']}/getFile?file_id=#{@message.video.file_id}"
     response = JSON.parse response
     response["result"]["file_path"] if response["result"]
   end
