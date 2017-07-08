@@ -5,8 +5,8 @@ require 'dotenv/load'
 LIB_PATH = "lib"
 load_all LIB_PATH
 
-def is_content_for_gif bot, message
- 	return MakeGifFromUrlCommand.new(bot, message, message.text) if message.text =~ /https?:\/\/.*\..*/
+def content_for_gif? bot, message
+  return MakeGifFromUrlCommand.new(bot, message, message.text) if message.text =~ %r{https?://.*\..*/?.*}
  	return MakeGifFromFileCommand.new(bot, message) if message[:video]
  	false
 end
@@ -16,7 +16,8 @@ def get_general_command bot, message
 	if COMMANDS.include? command
 		COMMANDS[command].new bot, message
 	else
-		if result = is_content_for_gif(bot, message)
+    result = content_for_gif? bot, message
+		if result
 			result
 		else
 			UnknownCommand.new bot, message

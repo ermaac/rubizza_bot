@@ -1,5 +1,4 @@
 module BotMethods
-
   def send_message bot, message
     bot.api.send_message message
   end
@@ -14,7 +13,8 @@ module BotMethods
 
   def make_keyboard *buttons
     result = []
-    buttons.each{|button_name| result << Telegram::Bot::Types::InlineKeyboardButton.new(text: button_name, callback_data: button_name)}
+    buttons.each { |button_name| result << Telegram::Bot::Types::InlineKeyboardButton.new(text: button_name,
+                                                                                          callback_data: button_name) }
     result
   end
 
@@ -27,9 +27,8 @@ module BotMethods
     send_message bot, message
   end
 
-  def send_doc bot, chat_id, filename, file_type
-    response = {chat_id: chat_id, document: Faraday::UploadIO.new(filename, "image/#{file_type}")}
+  def send_doc bot, chat_id, document_address
+    response = {chat_id: chat_id, document: document_address}
     bot.api.send_document response
   end
-
 end

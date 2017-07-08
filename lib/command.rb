@@ -1,7 +1,6 @@
-require_relative "bot_methods.rb"
+require_relative 'bot_methods.rb'
 
 class Command
-
   include BotMethods
 
   def initialize bot, message
@@ -9,5 +8,4 @@ class Command
     @message = message
     @chat_id = message.from.id
   end
-
 end
