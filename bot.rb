@@ -1,9 +1,8 @@
 require 'telegram/bot'
-require_relative 'loader.rb'
 require 'dotenv/load'
 
 LIB_PATH = "lib"
-load_all LIB_PATH
+Dir.foreach(LIB_PATH){|f| require_relative File.join(LIB_PATH,f) if f =~ /.*\.rb/}
 
 def content_for_gif? bot, message
   return MakeGifFromUrlCommand.new(bot, message, message.text) if message.text =~ %r{https?://.*\..*/?.*}
