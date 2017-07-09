@@ -2,6 +2,8 @@ require 'tempfile'
 require_relative 'command.rb'
 
 class MakeGifCommand < Command
+  GIF_API_URL = "https://api.gifs.com/media/import?source="
+
   def exec
     print_message @bot, @chat_id, "Please, wait, it can take a while"
     make_gif
@@ -13,7 +15,7 @@ class MakeGifCommand < Command
   end
 
   def get_response_with_gif
-    response = make_request "https://api.gifs.com/media/import?source=#{@url}"
+    response = make_request(GIF_API_URL + @url)
     JSON.parse response
   end
 
