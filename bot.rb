@@ -7,21 +7,14 @@ Dir.foreach(LIB_PATH){|f| require_relative File.join(LIB_PATH,f) if f =~ /.*\.rb
 def content_for_gif? bot, message
   return MakeGifFromUrlCommand.new(bot, message, message.text) if message.text =~ %r{https?://.*\..*/?.*}
   return MakeGifFromFileCommand.new(bot, message) if message[:video]
-  false
+  nil
 end
 
 def get_general_command bot, message
   command = message.text.downcase.to_sym if message.text
-  if COMMANDS.include? command
-    COMMANDS[command].new bot, message
-  else
-    result = content_for_gif? bot, message
-    if result
-      result
-    else
-      UnknownCommand.new bot, message
-    end
-  end
+  return COMMANDS[command].new bot, message if COMMANDS.include? command
+  result = content_for_gif? bot, message
+  result ||= UnknownCommand.new bot, message
 end
 
 def make_gif_command bot, message
