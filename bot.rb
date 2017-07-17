@@ -3,6 +3,7 @@ require 'dotenv/load'
 
 LIB_PATH = "lib"
 Dir.foreach(LIB_PATH){|f| require_relative File.join(LIB_PATH,f) if f =~ /.*\.rb/}
+COMMANDS = {"/make_gif": ContentProvideWayCommand, "/start": Start, "/help": Help}
 
 def content_for_gif? bot, message
   return MakeGifFromUrlCommand.new(bot, message, message.text) if message.text =~ %r{https?://.*\..*/?.*}
@@ -24,7 +25,6 @@ def make_gif_command bot, message
   end
 end
 
-COMMANDS = {"/make_gif": ContentProvideWayCommand, "/start": Start, "/help": Help}
 def get_command bot, message
   case message
   when Telegram::Bot::Types::Message then get_general_command bot, message

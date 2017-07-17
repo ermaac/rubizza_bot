@@ -12,10 +12,7 @@ module BotMethods
   end
 
   def make_keyboard *buttons
-    result = []
-    buttons.each { |button_name| result << Telegram::Bot::Types::InlineKeyboardButton.new(text: button_name,
-                                                                                          callback_data: button_name) }
-    result
+    buttons.map! { |button_name| Telegram::Bot::Types::InlineKeyboardButton.new(text: button_name, callback_data: button_name) }
   end
 
   def make_markup kb
